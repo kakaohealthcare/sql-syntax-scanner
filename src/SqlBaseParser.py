@@ -1709,6 +1709,7 @@ def serializedATN():
         3808,3812,3816,3820,3824,3828,3832,3836,3839,3852,3857,3861,3865
     ]
 
+
 class SqlBaseParser ( Parser ):
 
     grammarFileName = "SqlBaseParser.g4"
@@ -1718,6 +1719,29 @@ class SqlBaseParser ( Parser ):
     decisionsToDFA = [ DFA(ds, i) for i, ds in enumerate(atn.decisionToState) ]
 
     sharedContextCache = PredictionContextCache()
+    
+    # /**
+    # * When false, INTERSECT is given the greater precedence over the other set
+    # * operations (UNION, EXCEPT and MINUS) as per the SQL standard.
+    # */
+    # public boolean legacy_setops_precedence_enabled = false;
+    legacy_setops_precedence_enabled = False
+    # /**
+    # * When false, a literal with an exponent would be converted into
+    # * double type rather than decimal type.
+    # */
+    # public boolean legacy_exponent_literal_as_decimal_enabled = false;
+    legacy_exponent_literal_as_decimal_enabled = False
+    # /**
+    # * When true, the behavior of keywords follows ANSI SQL standard.
+    # */
+    # public boolean SQL_standard_keyword_behavior = false;
+    SQL_standard_keyword_behavior = False
+    # /**
+    # * When true, double quoted literals are identifiers rather than STRINGs.
+    # */
+    # public boolean double_quoted_identifiers = false;
+    double_quoted_identifiers = False
 
     literalNames = [ "<INVALID>", "';'", "'('", "')'", "','", "'.'", "'['", 
                      "']'", "'ADD'", "'AFTER'", "'ALL'", "'ALTER'", "'ALWAYS'", 
@@ -2522,7 +2546,7 @@ class SqlBaseParser ( Parser ):
     BRACKETED_COMMENT=384
     WS=385
     UNRECOGNIZED=386
-
+    
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.13.1")
@@ -2531,27 +2555,6 @@ class SqlBaseParser ( Parser ):
 
 
 
-      /**
-       * When false, INTERSECT is given the greater precedence over the other set
-       * operations (UNION, EXCEPT and MINUS) as per the SQL standard.
-       */
-      public boolean legacy_setops_precedence_enabled = false;
-
-      /**
-       * When false, a literal with an exponent would be converted into
-       * double type rather than decimal type.
-       */
-      public boolean legacy_exponent_literal_as_decimal_enabled = false;
-
-      /**
-       * When true, the behavior of keywords follows ANSI SQL standard.
-       */
-      public boolean SQL_standard_keyword_behavior = false;
-
-      /**
-       * When true, double quoted literals are identifiers rather than STRINGs.
-       */
-      public boolean double_quoted_identifiers = false;
 
 
 
@@ -13522,7 +13525,7 @@ class SqlBaseParser ( Parser ):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
                         self.state = 1941
-                        if not legacy_setops_precedence_enabled:
+                        if not self.legacy_setops_precedence_enabled:
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "legacy_setops_precedence_enabled")
                         self.state = 1942
@@ -13554,7 +13557,7 @@ class SqlBaseParser ( Parser ):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
                         self.state = 1948
-                        if not !legacy_setops_precedence_enabled:
+                        if not self.legacy_setops_precedence_enabled:
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "!legacy_setops_precedence_enabled")
                         self.state = 1949
@@ -13580,7 +13583,7 @@ class SqlBaseParser ( Parser ):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 1)")
                         self.state = 1955
-                        if not !legacy_setops_precedence_enabled:
+                        if not self.legacy_setops_precedence_enabled:
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "!legacy_setops_precedence_enabled")
                         self.state = 1956
@@ -28771,7 +28774,7 @@ class SqlBaseParser ( Parser ):
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 3777
-                if not !SQL_standard_keyword_behavior:
+                if not self.SQL_standard_keyword_behavior:
                     from antlr4.error.Errors import FailedPredicateException
                     raise FailedPredicateException(self, "!SQL_standard_keyword_behavior")
                 self.state = 3778
@@ -28887,7 +28890,7 @@ class SqlBaseParser ( Parser ):
                 localctx = SqlBaseParser.UnquotedIdentifierContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 3783
-                if not SQL_standard_keyword_behavior:
+                if not self.SQL_standard_keyword_behavior:
                     from antlr4.error.Errors import FailedPredicateException
                     raise FailedPredicateException(self, "SQL_standard_keyword_behavior")
                 self.state = 3784
@@ -28898,7 +28901,7 @@ class SqlBaseParser ( Parser ):
                 localctx = SqlBaseParser.UnquotedIdentifierContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 3785
-                if not !SQL_standard_keyword_behavior:
+                if not self.SQL_standard_keyword_behavior:
                     from antlr4.error.Errors import FailedPredicateException
                     raise FailedPredicateException(self, "!SQL_standard_keyword_behavior")
                 self.state = 3786
@@ -29322,7 +29325,7 @@ class SqlBaseParser ( Parser ):
                 localctx = SqlBaseParser.ExponentLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 3796
-                if not !legacy_exponent_literal_as_decimal_enabled:
+                if not self.legacy_exponent_literal_as_decimal_enabled:
                     from antlr4.error.Errors import FailedPredicateException
                     raise FailedPredicateException(self, "!legacy_exponent_literal_as_decimal_enabled")
                 self.state = 3798
@@ -29341,7 +29344,7 @@ class SqlBaseParser ( Parser ):
                 localctx = SqlBaseParser.DecimalLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 3801
-                if not !legacy_exponent_literal_as_decimal_enabled:
+                if not legacy_exponent_literal_as_decimal_enabled:
                     from antlr4.error.Errors import FailedPredicateException
                     raise FailedPredicateException(self, "!legacy_exponent_literal_as_decimal_enabled")
                 self.state = 3803
@@ -29679,7 +29682,7 @@ class SqlBaseParser ( Parser ):
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 3855
-                if not !double_quoted_identifiers:
+                if not self.double_quoted_identifiers:
                     from antlr4.error.Errors import FailedPredicateException
                     raise FailedPredicateException(self, "!double_quoted_identifiers")
                 self.state = 3856
@@ -31796,7 +31799,7 @@ class SqlBaseParser ( Parser ):
          
 
             if predIndex == 1:
-                return legacy_setops_precedence_enabled
+                return self.legacy_setops_precedence_enabled
          
 
             if predIndex == 2:
@@ -31804,7 +31807,7 @@ class SqlBaseParser ( Parser ):
          
 
             if predIndex == 3:
-                return !legacy_setops_precedence_enabled
+                return not self.legacy_setops_precedence_enabled
          
 
             if predIndex == 4:
@@ -31812,7 +31815,7 @@ class SqlBaseParser ( Parser ):
          
 
             if predIndex == 5:
-                return !legacy_setops_precedence_enabled
+                return not self.legacy_setops_precedence_enabled
          
 
     def booleanExpression_sempred(self, localctx:BooleanExpressionContext, predIndex:int):
@@ -31864,39 +31867,39 @@ class SqlBaseParser ( Parser ):
 
     def identifier_sempred(self, localctx:IdentifierContext, predIndex:int):
             if predIndex == 17:
-                return !SQL_standard_keyword_behavior
+                return not self.SQL_standard_keyword_behavior
          
 
     def strictIdentifier_sempred(self, localctx:StrictIdentifierContext, predIndex:int):
             if predIndex == 18:
-                return SQL_standard_keyword_behavior
+                return self.SQL_standard_keyword_behavior
          
 
             if predIndex == 19:
-                return !SQL_standard_keyword_behavior
+                return not self.SQL_standard_keyword_behavior
          
 
     def quotedIdentifier_sempred(self, localctx:QuotedIdentifierContext, predIndex:int):
             if predIndex == 20:
-                return double_quoted_identifiers
+                return self.double_quoted_identifiers
          
 
     def number_sempred(self, localctx:NumberContext, predIndex:int):
             if predIndex == 21:
-                return !legacy_exponent_literal_as_decimal_enabled
+                return  not self.legacy_exponent_literal_as_decimal_enabled
          
 
             if predIndex == 22:
-                return !legacy_exponent_literal_as_decimal_enabled
+                return not self.legacy_exponent_literal_as_decimal_enabled
          
 
             if predIndex == 23:
-                return legacy_exponent_literal_as_decimal_enabled
+                return self.legacy_exponent_literal_as_decimal_enabled
          
 
     def stringLit_sempred(self, localctx:StringLitContext, predIndex:int):
             if predIndex == 24:
-                return !double_quoted_identifiers
+                return  not self.double_quoted_identifiers
          
 
 
